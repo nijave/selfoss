@@ -22,6 +22,24 @@ class Items extends Database {
 
     
     /**
+     * mark item as opened
+     *
+     * @return void
+     * @param int $id
+     */
+    public function opened($id) {
+        if($this->isValid('id', $id)===false)
+            return;
+        
+        if(is_array($id))
+            $id = implode(",", $id);
+        
+        // i used string concatenation after validating $id
+        \F3::get('db')->exec('UPDATE '.\F3::get('db_prefix').'items SET '.$this->stmt->isFalse('unopened').' WHERE id IN (' . $id . ')');
+    }
+
+    
+	/**
      * mark item as read
      *
      * @return void
@@ -54,7 +72,6 @@ class Items extends Database {
         \F3::get('db')->exec('UPDATE '.\F3::get('db_prefix').'items SET '.$this->stmt->isTrue('unread').' WHERE id IN (:id)',
                     array(':id' => $id));
     }
-    
     
     /**
      * starr item
