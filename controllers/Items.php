@@ -66,7 +66,36 @@ class Items extends BaseController {
         ));
     }
 
+	/**
+     * mark items as opened. Allows one id or an array of ids
+     * json
+     *
+     * @return void
+     */
+    public function opened() {
+        $this->needsLoggedIn();
 
+        if(\F3::get('PARAMS["item"]')!=null)
+            $lastid = \F3::get('PARAMS["item"]');
+        else if(isset($_POST['ids'])) {
+            $lastid = $_POST['ids'];
+        }
+
+        $itemDao = new \daos\Items();
+
+        // validate id or ids
+        if (!$itemDao->isValid('id', $lastid))
+            $this->view->error('invalid id');
+
+        $itemDao->opened($lastid);
+
+        $return = array(
+            'success' => true
+        );
+
+        $this->view->jsonSuccess($return);
+    }
+	
     /**
      * starr item
      * json
