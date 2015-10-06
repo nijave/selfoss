@@ -19,12 +19,37 @@ selfoss.events.entriesToolbar = function(parent) {
         return false;
     });
     
+	var setOpened = function(id) {
+		if($('body').hasClass('loggedin')==true) {
+			console.log("Set opened: " + id);
+			$.ajax({
+				url: $('base').attr('href') + 'opened/' + id,
+				data: { ajax: true },
+				type: 'POST',
+				error: function(jqXHR, textStatus, errorThrown) {
+					selfoss.showError('Can not marl item as opened: '+
+									  textStatus+' '+errorThrown);
+				}
+			});
+		}
+	};
+	
     // open in new window
+	// and mark as opened
     parent.find('.entry-newwindow').unbind('click').click(function(e) {
         window.open($(this).parents(".entry").children(".entry-source").attr("href"));
         e.preventDefault();
+		var id = $(this).parents('.entry').attr('id').substr(5);
+		setOpened(id);
         return false;
     });
+	
+	// mark as opened if icon clicked
+	parent.find('.entry-icon').unbind('click').click(function(e) {
+		var id = $(this).parents('.entry').attr('id').substr(5);
+		setOpened(id);
+		return false;
+	});
 
     // next item on smartphone
     parent.find('.entry-toolbar .entry-next').unbind('click').click(function(e) {
@@ -202,5 +227,6 @@ selfoss.events.entriesToolbar = function(parent) {
             
             return false;
         });
+		
     }
 };
