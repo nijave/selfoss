@@ -36,20 +36,14 @@ selfoss.events.entriesToolbar = function(parent) {
 	
     // open in new window
 	// and mark as opened
-    parent.find('.entry-newwindow').unbind('click').click(function(e) {
+    parent.find('.entry-newwindow, .entry-icon').unbind('click').click(function(e) {
         window.open($(this).parents(".entry").children(".entry-source").attr("href"));
-        e.preventDefault();
 		var id = $(this).parents('.entry').attr('id').substr(5);
 		setOpened(id);
+		
+		e.preventDefault();
         return false;
     });
-	
-	// mark as opened if icon clicked
-	parent.find('.entry-icon').unbind('click').click(function(e) {
-		var id = $(this).parents('.entry').attr('id').substr(5);
-		setOpened(id);
-		return false;
-	});
 
     // next item on smartphone
     parent.find('.entry-toolbar .entry-next').unbind('click').click(function(e) {
