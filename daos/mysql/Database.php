@@ -58,6 +58,7 @@ class Database {
                         link TEXT NOT NULL,
                         updatetime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                         author VARCHAR(255),
+						unopened BOOL
                         INDEX (source)
                     ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
                 ');
@@ -66,6 +67,7 @@ class Database {
                     BEFORE INSERT ON ' . \F3::get('db_prefix') . 'items FOR EACH ROW
                         BEGIN
                             SET NEW.updatetime = NOW();
+							SET NEW.unopened = 1;
                         END;
                 ');
                 \F3::get('db')->exec('
