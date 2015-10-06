@@ -72,6 +72,8 @@ $f3->route('GET /sources/stats', 'controllers\Sources->stats');     // json
 // only loggedin users
 $f3->route('POST /mark/@item',          'controllers\Items->mark');           // json
 $f3->route('POST /mark',                'controllers\Items->mark');           // json
+$f3->route('POST /opened/@item',          'controllers\Items->opened');         // json
+$f3->route('POST /opened',                'controllers\Items->opened');         // json
 $f3->route('POST /unmark/@item',        'controllers\Items->unmark');         // json
 $f3->route('POST /starr/@item',         'controllers\Items->starr');          // json
 $f3->route('POST /unstarr/@item',       'controllers\Items->unstarr');        // json
