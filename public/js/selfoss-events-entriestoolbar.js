@@ -36,12 +36,13 @@ selfoss.events.entriesToolbar = function(parent) {
 	
     // open in new window
 	// and mark as opened
-    parent.find('.entry-newwindow, .entry-icon').unbind('click').click(function(e) {
-        window.open($(this).parents(".entry").children(".entry-source").attr("href"));
-		var id = $(this).parents('.entry').attr('id').substr(5);
-		setOpened(id);
-		
-		e.preventDefault();
+    parent.find('.entry-newwindow').unbind('click').click(function(e) {
+        window.open($(this).parents(".entry").children(".entry-datetime").attr("href"));
+	var id = $(this).parents('.entry').attr('id').substr(5);
+	setOpened(id);
+
+        e.preventDefault();
+
         return false;
     });
 
@@ -65,11 +66,11 @@ selfoss.events.entriesToolbar = function(parent) {
     var shares = selfoss.shares.getAll();
     if (shares.length > 0)
     {
-        if (parent.find('ul.entry-toolbar').has('img.entry-share'+shares[0]).length == 0)
+        if (parent.find('.entry-toolbar').has('button.entry-share'+shares[0]).length == 0)
         {
             // add the share toolbar entries
-            parent.find('ul.entry-smartphone-share li.entry-newwindow').after(selfoss.shares.buildLinks(shares, function(name) { return '<li><span class="entry-share entry-share'+name+'" title="'+name+'"><img class="entry-share" title="'+name+'" src="images/'+name+'.png" height="16" width="16">'+name+'</span></li>'}));
-            parent.find('ul.entry-toolbar li.entry-next').after(selfoss.shares.buildLinks(shares, function(name) { return '<li><img class="entry-share entry-share'+name+'" title="'+name+'" src="images/'+name+'.png" height="16" width="16"></li>'}));
+            parent.find('.entry-smartphone-share button.entry-newwindow').after(selfoss.shares.buildLinks(shares, function(name) { return '<button class="entry-share entry-share'+name+'" title="'+name+'"><img class="entry-share" title="'+name+'" src="images/'+name+'.png" height="16" width="16">'+name+'</button>'}));
+            parent.find('.entry-toolbar button.entry-next').after(selfoss.shares.buildLinks(shares, function(name) { return '<button class="entry-share entry-share'+name+'"><img title="'+name+'" src="images/'+name+'.png" height="16" width="16"></button>'}));
             // hookup the share icon click events
             for (var i = 0; i < shares.length; i++) {
                 (function(share){
@@ -135,7 +136,8 @@ selfoss.events.entriesToolbar = function(parent) {
         
         // read/unread
         parent.find('.entry-unread').unbind('click').click(function() {
-            var id = $(this).parents('.entry').attr('id').substr(5);
+            var entry = $(this).parents('.entry');
+            var id = entry.attr('data-entry-id');
             var unread = $(this).hasClass('active')==true;
             var button = $("#entry"+id+" .entry-unread, #entrr"+id+" .entry-unread");
             var parent = $("#entry"+id+", #entrr"+id);
@@ -166,7 +168,7 @@ selfoss.events.entriesToolbar = function(parent) {
                 selfoss.refreshUnread(unreadstats);
                     
                 // update unread count on sources
-                var sourceId = $('#entry'+id+' .entry-source').attr('class').substr(25);
+                var sourceId = entry.attr('data-entry-source');
                 var sourceNav = $('#source'+sourceId+' .unread');
                 var sourceCount = parseInt(sourceNav.html());
                 if(typeof sourceCount != "number" || isNaN(sourceCount)==true)

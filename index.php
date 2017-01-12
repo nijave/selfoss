@@ -82,11 +82,12 @@ $f3->route('GET    /source/params',     'controllers\Sources->params');       //
 $f3->route('GET    /sources',           'controllers\Sources->show');         // html
 $f3->route('GET    /source',            'controllers\Sources->add');          // html
 $f3->route('GET    /sources/list',      'controllers\Sources->listSources');  // json
-$f3->route('GET    /sources/stats',     'controllers\Sources->sourcesStats');  // json
+$f3->route('GET    /sources/sourcesStats', 'controllers\Sources->sourcesStats');  // json
 $f3->route('POST   /source/@id',        'controllers\Sources->write');        // json
 $f3->route('POST   /source',            'controllers\Sources->write');        // json
 $f3->route('DELETE /source/@id',        'controllers\Sources->remove');       // json
 $f3->route('POST   /source/delete/@id', 'controllers\Sources->remove');       // json
+$f3->route('POST   /source/@id/update', 'controllers\Sources->update');       // json
 $f3->route('GET    /sources/spouts',    'controllers\Sources->spouts');       // json
 
 $f3->route('POST /tags/color',          'controllers\Tags->color');           // json

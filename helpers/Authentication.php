@@ -38,7 +38,7 @@ class Authentication {
             $cookie_domain = $_SERVER['HTTP_X_FORWARDED_SERVER'];
         } else {
             // cookie path is script dir.
-            $cookie_path = dirname($_SERVER['SCRIPT_NAME'])==='/'?'/':dirname($_SERVER['SCRIPT_NAME']).'/';
+            $cookie_path = dirname($_SERVER['REQUEST_URI'])==='/'?'/':dirname($_SERVER['REQUEST_URI']).'/';
             $cookie_domain = $_SERVER['SERVER_NAME'];
         }
         session_set_cookie_params($cookie_expire, $cookie_path, $cookie_domain,
@@ -124,6 +124,16 @@ class Authentication {
         return $this->loggedin;
     }
     
+
+    /**
+     * showPrivateTags
+     *
+     * @return bool
+     */
+    public function showPrivateTags() {
+       return $this->isLoggedin();
+     }
+
     
     /**
      * logout

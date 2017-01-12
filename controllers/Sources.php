@@ -27,7 +27,7 @@ class Sources extends BaseController {
 
         // load sources
         $sourcesDao = new \daos\Sources();
-        echo '<div class="source-add">' . \F3::get('lang_source_add') . '</div>' .
+        echo '<button class="source-add">' . \F3::get('lang_source_add') . '</button>' .
              '<a class="source-export" href="opmlexport">' . \F3::get('lang_source_export') . '</a>' .
              '<a class="source-opml" href="opml">' . \F3::get('lang_source_opml');
         $sourcesHtml = '</a>';
@@ -77,8 +77,10 @@ class Sources extends BaseController {
         if($this->view->spout===false)
             $this->view->error('invalid spout type given');
         
-        if($this->view->spout->params!==false)
+        if($this->view->spout->params!==false) {
+            $this->view->idAttr = 'new-' . rand();
             echo $this->view->render('templates/source_params.phtml');
+        }
     }
     
     
@@ -219,7 +221,7 @@ class Sources extends BaseController {
      * @return void
      */
     public function sourcesStats() {
-        $this->needsLoggedIn();
+        $this->needsLoggedInOrPublicMode();
 
         $this->view->jsonSuccess(array(
             'success' => true,
@@ -255,8 +257,32 @@ class Sources extends BaseController {
             'success' => true
         ));
     }
-    
-    
+
+
+    /**
+     * update source
+     * text
+     *
+     * @return void
+     */
+    public function update() {
+        $id = \F3::get('PARAMS["id"]');
+
+        // only allow access for localhost and authenticated users
+        if (\F3::get('allow_public_update_access') != 1
+                && $_SERVER['REMOTE_ADDR'] !== $_SERVER['SERVER_ADDR']
+                && $_SERVER['REMOTE_ADDR'] !== "127.0.0.1"
+                && \F3::get('auth')->isLoggedin() != 1) {
+            die("unallowed access");
+        }
+
+        // update the feed
+        $loader = new \helpers\ContentLoader();
+        $loader->updateSingle($id);
+        echo "finished";
+    }
+
+
     /**
      * returns all available sources
      * json

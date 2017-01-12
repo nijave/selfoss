@@ -97,7 +97,7 @@ selfoss.shortcuts = {
         
         // 'v': open target
         $(document).bind('keydown', 'v', function(e) {
-            window.open($('.entry.selected .entry-source').attr('href'));
+            window.open($('.entry.selected .entry-datetime').attr('href'));
             e.preventDefault();
             return false;
         });
@@ -114,13 +114,19 @@ selfoss.shortcuts = {
             }
             
             // open item in new window
-            $('.entry.selected .entry-source').click();
+            $('.entry.selected .entry-datetime').click();
         });
         
         // 'r': Reload the current view
         $(document).bind('keydown', 'r', function(e) {
             e.preventDefault();
             $('#nav-filter-unread').click();
+        });
+
+        // 'Shift + r': Refresh sources
+        $(document).bind('keydown', 'Shift+r', function(e) {
+            e.preventDefault();
+            $('#nav-refresh').click();
         });
         
         // 'Ctrl+m': mark all as read
@@ -235,6 +241,9 @@ selfoss.shortcuts = {
         
         // scroll to element
         selfoss.shortcuts.autoscroll(current);
+
+        // focus the icon for better keyboard navigation
+        current.find('.entry-icon').focus();
     },
     
     

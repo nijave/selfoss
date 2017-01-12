@@ -80,6 +80,36 @@ class Items extends Database {
             $options
         );
         
-        return $this->backend->get($options);
+        $items = $this->backend->get($options);
+
+        // remove private posts with private tags
+        if(!\F3::get('auth')->showPrivateTags()) {
+            foreach($items as $idx => $item) {
+                $tags = explode(',', $item['tags']);
+                foreach ($tags as $tag) {
+                    if (strpos(trim($tag), '@') === 0) {
+                        unset($items[$idx]);
+                        break;
+                    }
+                }
+            }
+            $items = array_values($items);
+        }
+
+        // remove posts with hidden tags
+        if(!isset($options['tag']) || strlen($options['tag']) === 0) {
+            foreach($items as $idx => $item) {
+                $tags = explode(',', $item['tags']);
+                foreach ($tags as $tag) {
+                    if (strpos(trim($tag), '#') === 0) {
+                        unset($items[$idx]);
+                        break;
+                    }
+                }
+            }
+            $items = array_values($items);
+        }
+
+        return $items;
     }
 }
