@@ -30,6 +30,9 @@ CONFIGURATION
 UPDATE
 ------
 
+**NOTICE you may encounter errors updating to this version if your PHP script execution time limit is too low and your database is large. The update does table 
+changes that may take a while causing the script to timeout and result in a partial update. Possibly increase time limit first.**
+
 1. backup your database and your "data" folder
 2. (IMPORTANT: don't delete the "data" folder) delete all old files and folders excluding the folder "data" and the file config.ini
 3. upload all new files and folders excluding the data folder (IMPORTANT: also upload the invisible .htaccess files)
