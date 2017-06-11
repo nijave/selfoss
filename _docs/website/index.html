@@ -9,7 +9,7 @@
     <meta name="description" content="selfoss the web based open source rss reader and multi source mashup aggregator">
     <meta name="robots" content="all">
 
-    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="feed.php">
+    <link rel="alternate" type="application/atom+xml" title="RSS Feed" href="https://github.com/SSilence/selfoss/releases.atom">
 
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 
@@ -27,7 +27,7 @@
             <li class="documentation">documentation</li>
             <li class="about">about</li>
             <li class="forum"><a href="/forum">forum</a></li>
-            <li class="download"><a href="https://github.com/SSilence/selfoss/releases/download/2.16/selfoss-2.16.zip">download</a></li>
+            <li class="download"><a href="https://github.com/SSilence/selfoss/releases/download/2.17/selfoss-2.17.zip">download</a></li>
         </ul>
 
         <a id="header-fork" href="https://github.com/SSilence/selfoss"></a>
@@ -36,12 +36,13 @@
 
         <div id="header-just-updated"></div>
 
-        <a id="header-download" href="https://github.com/SSilence/selfoss/releases/download/2.16/selfoss-2.16.zip"><span>download selfoss 2.16</span></a>
+        <a id="header-download" href="https://github.com/SSilence/selfoss/releases/download/2.17/selfoss-2.17.zip"><span>download selfoss 2.17</span></a>
 
         <a id="header-donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=LR67F3T9DMSC8"><span>donate</span></a>
 
         <div id="header-appstores">
             <a href="https://play.google.com/store/apps/details?id=fr.ydelouis.selfoss"><img alt="Android app on Google Play" src="images/googleplay.png"></a>
+            <a href="https://play.google.com/store/apps/details?id=apps.amine.bou.readerforselfoss"><img alt="Android app on Google Play" src="images/googleplay.png"></a>
         </div>
 
         <div id="header-donate-tooltipp"><span>selfoss is completely free!<br>But if you like selfoss then feel free to donate the programmer a beer</span></div>
@@ -92,12 +93,12 @@
             <div class="documentation-entry">
                 <p>selfoss is not a hosted service. It has to be installed on your own webserver. This webserver must fulfill the following requirements (which are available from most providers)</p>
                 <ul>
-                    <li>PHP 5.3 or higher with the php-gd extension enabled</li>
-                    <li>MySQL, PostgreSQL or Sqlite</li>
-                    <li>Apache Webserver (ngnix and lighttpd also possible)</li>
+                    <li>PHP 5.3 or higher with the php-gd and php-http extensions enabled</li>
+                    <li>MySQL 5.5.3 or higher, PostgreSQL, or Sqlite</li>
+                    <li>Apache Webserver (nginx and lighttpd also possible)</li>
                 </ul>
 
-                <p>Ensure that you have mod_rewrite and mod_headers enabled.</p>
+                <p>Ensure that you have mod_authz_core, mod_rewrite and mod_headers enabled.</p>
 
                 <p>selfoss supports all modern browsers, including Mozilla Firefox, Safari, Google Chrome, Opera and Internet Explorer. selfoss also supports mobile browsers on iPad, iPhone, Android and other devices.</p>
             </div>
@@ -111,7 +112,7 @@
                     <li>Make the directories data/cache, data/favicons, data/logs, data/thumbnails, data/sqlite and public/ writeable</li>
                     <li>Insert database access data in config.ini (see below &mdash; you have not to change anything if you would like to use sqlite)</li>
                     <li>You don't have to install the database, it will be created automatically</li>
-                    <li>Create cronjob for updating feeds and point it to http://yoururl.com/update via wget or curl. You can also execute the cliupdate.php from commandline.</li>
+                    <li>Create cronjob for updating feeds and point it to https://yoururl.com/update via wget or curl. You can also execute the cliupdate.php from commandline.</li>
                 </ol>
 
                 For further questions or any problems, use our <a href="forum">support forum</a>. For a more detailed step-by-step example installation, please visit the <a href="https://github.com/SSilence/selfoss/wiki/">wiki</a>.
@@ -162,10 +163,10 @@ db_port=3306</code>
                 For further questions or on any problem use our <a href="forum">support forum</a>.
             </div>
 
-            <h2>Import your feeds from Google Reader (OPML File)</h2>
+            <h2>Import your feeds from a different RSS reader</h2>
             <div class="documentation-entry">
-                Visit the page http://yoururl.com/opml for importing your OPML File.
-                If you are a user of the google reader then use http://www.google.com/reader/subscriptions/export or https://www.google.com/takeout/ to get all your feeds in one opml file.
+                Selfoss supports importing OPML files. Find the OPML export in the old application, it is usually located somewhere in settings.
+                Then visit the page https://yourselfossurl.com/opml and upload it there.
             </div>
 
             <h2 id="configuration_params">Configuration</h2>
@@ -211,7 +212,7 @@ db_port=3306</code>
                     </tr>
                     <tr>
                         <td class="documentation-first-column">logger_level</td>
-                        <td>set logging level; the log file will be found on /data/logs/default.logfollowing logging levels are available: DEBUG, INFO, NOTICE, WARNING, ERROR, NONE use this for troubleshooting on updating feeds (but be aware that the log file can become very large)</td>
+                        <td>set logging level – following logging levels are available: <code>EMERGENCY</code>, <code>ALERT</code>, <code>CRITICAL</code>, <code>ERROR</code>, <code>WARNING</code>, <code>NOTICE</code>, <code>INFO</code>, <code>DEBUG</code>. Additionally, you can use <code>NONE</code> pseude-level to turn the logging off completely.<br>Use this for troubleshooting on updating feeds (but be aware that the log file can become very large.) The logged messages will be saved to <code>/data/logs/default.log</code>.</td>
                     </tr>
                     <tr>
                         <td class="documentation-first-column">items_perpage</td>
@@ -223,7 +224,7 @@ db_port=3306</code>
                     </tr>
                     <tr>
                         <td class="documentation-first-column">base_url</td>
-                        <td>base url of the selfoss page; use this option if you use a ssl proxy which changes the $_SERVER globals</td>
+                        <td>base url of the selfoss page; use this option if you use a ssl proxy which changes the $_SERVER globals, most notably the URL path in which the app is installed.</td>
                     </tr>
                     <tr>
                         <td class="documentation-first-column">username</td>
@@ -231,11 +232,11 @@ db_port=3306</code>
                     </tr>
                     <tr>
                         <td class="documentation-first-column">password</td>
-                        <td>password hash for optional login. You can generate a password hash by using following page of your selfoss installation. http://your_selfoss_url.com/password</td>
+                        <td>password hash for optional login. You can generate a password hash by using following page of your selfoss installation. https://your_selfoss_url.com/password</td>
                     </tr>
                     <tr>
                         <td class="documentation-first-column">salt</td>
-                        <td>salt for hashing the password (see <a href="http://en.wikipedia.org/wiki/Salt_(cryptography)">Wikipedia</a>)</td>
+                        <td>salt for hashing the password (see <a href="https://en.wikipedia.org/wiki/Salt_(cryptography)">Wikipedia</a>)</td>
                     </tr>
                     <tr>
                         <td class="documentation-first-column">public</td>
@@ -275,7 +276,7 @@ db_port=3306</code>
                     </tr>
                     <tr>
                         <td class="documentation-first-column">anonymizer</td>
-                        <td>set here your anonymizer service url. e.g.: anonymizer=http://anonym.to/?</td>
+                        <td>set here your anonymizer service url. e.g.: anonymizer=https://anonym.to/?</td>
                     </tr>
                     <tr>
                         <td class="documentation-first-column">use_system_font</td>
@@ -296,6 +297,10 @@ db_port=3306</code>
                     <tr>
                         <td class="documentation-first-column">wallabag</td>
                         <td>wallabag url. url to wallabag homepage</td>
+                    </tr>
+                    <tr>
+                        <td class="documentation-first-column">wallabag_version</td>
+                        <td>set this to 1 or 2 depending on your wallabag version (1 for version 1.x or 2 for version 2.x)</td>
                     </tr>
                     <tr>
                         <td class="documentation-first-column">unread_order</td>
@@ -502,10 +507,10 @@ db_port=3306</code>
 
                 <ul>
                     <li>
-                        A <code>load($params)</code> function will be executed by selfoss when the content will be updated (the http://your-selfoss-url.com/update will be executed). This <code>load</code> function has one parameter <code>$params</code> which contains the user defined parameters (e.g. username, password or anything which the user has configured (as you can define in the members variable <code>$params</code>). This function contains your source code for fetching the data (e.g. loading the emails from an IMAP email account).
+                        A <code>load($params)</code> function will be executed by selfoss when the content will be updated (the https://your-selfoss-url.com/update will be executed). This <code>load</code> function has one parameter <code>$params</code> which contains the user defined parameters (e.g. username, password or anything which the user has configured (as you can define in the members variable <code>$params</code>). This function contains your source code for fetching the data (e.g. loading the emails from an IMAP email account).
                     </li>
                     <li>
-                        You have to implement the <code>Iterable</code> interface. selfoss will use it to iterate over all single entries of your source (e.g. the emails which were fetched by the load function). See <a href="http://www.php.net/manual/en/language.oop5.iterations.php">php.net manual (OOP5 iterators)</a> for more informations about this iterator functions.
+                        You have to implement the <code>Iterable</code> interface. selfoss will use it to iterate over all single entries of your source (e.g. the emails which were fetched by the load function). See <a href="https://secure.php.net/manual/en/language.oop5.iterations.php">php.net manual (OOP5 iterators)</a> for more informations about this iterator functions.
                     </li>
                     <li>
                         selfoss iterates over all the entries by using the iterable interface. selfoss will receive all information about the entries by using the functions defined by the abstract class <code>\spouts\spout</code> (e.g. it will get the email subject by executing the <code>getTitle()</code> method).
@@ -532,7 +537,7 @@ db_port=3306</code>
 
             <h2>License</h2>
             <div class="documentation-entry">
-                <p>selfoss is licensed under the <a href="http://www.gnu.org/licenses/gpl-3.0.html">GPLv3 license</a>.</p>
+                <p>selfoss is licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPLv3 license</a>.</p>
 
                 <p>You are allowed to use, modifiy or study this program completely for free. If you need any other licence than GPLv3 then feel free to contact me!</p>
             </div>
@@ -549,7 +554,7 @@ db_port=3306</code>
                 </p>
 
                 <p>
-                    Selfoss is named by the wonderfull waterfall in Iceland (see <a href="http://en.wikipedia.org/wiki/Selfoss_(waterfall)">Wikipedia</a>). Many single waterfalls converge to produce one big fall. This seems to be a good metaphor for the many sources from the web which will be shown in one stream.
+                    Selfoss is named by the wonderfull waterfall in Iceland (see <a href="https://en.wikipedia.org/wiki/Selfoss_(waterfall)">Wikipedia</a>). Many single waterfalls converge to produce one big fall. This seems to be a good metaphor for the many sources from the web which will be shown in one stream.
                 </p>
 
                 <p>
