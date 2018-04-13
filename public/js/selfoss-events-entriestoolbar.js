@@ -37,13 +37,14 @@ selfoss.events.entriesToolbar = function(parent) {
     // open in new window
 	// and mark as opened
     parent.find('.entry-newwindow, .entry-icon').unbind('click').mousedown(function(e) {
+		console.log(e);
         if(e.which !== 3) { // only handle 1=left and 2=middle
-            e.stopPropagation();
-            var id = $(this).parents('.entry').attr('id').substr(5);
+            var id = $(this).parents('.entry').data('entry-id');
             setOpened(id);
         }
 		
-        if(e.which === 1) { //only open in new window with left click
+        if(e.which === 1 && !e.metaKey && !e.ctrlKey) { //only open in new window with left click exclude ctrl/apple click
+		    e.stopPropagation();
             window.open($(this).parents(".entry").children(".entry-datetime").attr("href"));
         }
     });
