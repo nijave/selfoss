@@ -50,6 +50,12 @@ class feed extends \spouts\spout {
     /** @var array|bool current fetched items */
     protected $items = false;
 
+    /** @var string URL of the source */
+    protected $htmlUrl = '';
+
+    /** @var string URL of the favicon */
+    protected $faviconUrl = null;
+
     //
     // Iterator Interface
     //
@@ -68,7 +74,7 @@ class feed extends \spouts\spout {
     /**
      * receive current item
      *
-     * @return SimplePie_Item current item
+     * @return \SimplePie_Item current item
      */
     public function current() {
         if ($this->items !== false) {
@@ -94,7 +100,7 @@ class feed extends \spouts\spout {
     /**
      * select next item
      *
-     * @return SimplePie_Item next item
+     * @return \SimplePie_Item next item
      */
     public function next() {
         if ($this->items !== false) {
@@ -212,7 +218,7 @@ class feed extends \spouts\spout {
      */
     public function getTitle() {
         if ($this->items !== false && $this->valid()) {
-            return @current($this->items)->get_title();
+            return htmlspecialchars_decode(@current($this->items)->get_title());
         }
 
         return false;
@@ -237,7 +243,7 @@ class feed extends \spouts\spout {
      * @return string icon url
      */
     public function getIcon() {
-        if (isset($this->faviconUrl)) {
+        if ($this->faviconUrl !== null) {
             return $this->faviconUrl;
         }
 
@@ -300,9 +306,9 @@ class feed extends \spouts\spout {
             if (isset($author)) {
                 $name = $author->get_name();
                 if (isset($name)) {
-                    return $name;
+                    return htmlspecialchars_decode($name);
                 } else {
-                    return $author->get_email();
+                    return htmlspecialchars_decode($author->get_email());
                 }
             }
         }

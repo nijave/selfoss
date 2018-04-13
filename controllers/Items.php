@@ -217,7 +217,7 @@ class Items extends BaseController {
         $last_update = new \DateTime($itemsDao->lastUpdate());
 
         $sync = [
-            'last_update' => $last_update->format(\DateTime::ATOM),
+            'lastUpdate' => $last_update->format(\DateTime::ATOM),
         ];
 
         if ($last_update > $since) {
@@ -234,11 +234,12 @@ class Items extends BaseController {
                 $sync['sourceshtml'] = $sourcesController->renderSources($sourcesDao->getWithUnread());
             }
 
-            $wantItemsStatuses = array_key_exists('items_statuses', $_GET) && $_GET['items_statuses'] == 'true';
+            $wantItemsStatuses = array_key_exists('itemsStatuses', $_GET) && $_GET['itemsStatuses'] == 'true';
             if ($wantItemsStatuses) {
-                $sync['items'] = $itemsDao->statuses($since->format(\DateTime::ATOM));
+                $sync['itemUpdates'] = $itemsDao->statuses($since->format(\DateTime::ATOM));
             }
         }
+
         $this->view->jsonSuccess($sync);
     }
 }

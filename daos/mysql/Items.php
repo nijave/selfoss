@@ -161,13 +161,14 @@ class Items extends Database {
     }
 
     /**
-     * search whether given ids are already in database or not
+     * search whether given uids are already in database or not
      *
      * @param array $itemsInFeed list with ids for checking whether they are already in database or not
+     * @param int $sourceId the id of the source to search for the items
      *
-     * @return array with all existing ids from itemsInFeed (array (id => true))
+     * @return array with all existing uids from itemsInFeed (array (uid => id))
      */
-    public function findAll($itemsInFeed) {
+    public function findAll($itemsInFeed, $sourceId) {
         $itemsFound = [];
         if (count($itemsInFeed) < 1) {
             return $itemsFound;
@@ -176,13 +177,13 @@ class Items extends Database {
         array_walk($itemsInFeed, function(&$value) {
             $value = \F3::get('db')->quote($value);
         });
-        $query = 'SELECT uid AS uid FROM ' . \F3::get('db_prefix') . 'items WHERE uid IN (' . implode(',', $itemsInFeed) . ')';
+        $query = 'SELECT id, uid AS uid FROM ' . \F3::get('db_prefix') . 'items WHERE source = ' . \F3::get('db')->quote($sourceId) . ' AND uid IN (' . implode(',', $itemsInFeed) . ')';
         $res = \F3::get('db')->query($query);
         if ($res) {
             $all = $res->fetchAll();
             foreach ($all as $row) {
                 $uid = $row['uid'];
-                $itemsFound[$uid] = true;
+                $itemsFound[$uid] = $row['id'];
             }
         }
 
@@ -190,9 +191,21 @@ class Items extends Database {
     }
 
     /**
+     * Update the time items were last seen in the feed to prevent unwanted cleanup.
+     *
+     * @param array $itemIds
+     *
+     * @return void
+     */
+    public function updateLastSeen(array $itemIds) {
+        \F3::get('db')->exec('UPDATE ' . \F3::get('db_prefix') . 'items SET lastseen = CURRENT_TIMESTAMP
+            WHERE ' . $this->stmt->intRowMatches('id', $itemIds));
+    }
+
+    /**
      * cleanup orphaned and old items
      *
-     * @param DateTime $date date to delete all items older than this value [optional]
+     * @param ?DateTime $date date to delete all items older than this value
      *
      * @return void
      */
@@ -202,7 +215,7 @@ class Items extends Database {
                 SELECT id FROM ' . \F3::get('db_prefix') . 'sources)');
         if ($date !== null) {
             \F3::get('db')->exec('DELETE FROM ' . \F3::get('db_prefix') . 'items
-                WHERE ' . $this->stmt->isFalse('starred') . ' AND datetime<:date',
+                WHERE ' . $this->stmt->isFalse('starred') . ' AND lastseen<:date',
                     [':date' => $date->format('Y-m-d') . ' 00:00:00']
             );
         }
@@ -259,15 +272,15 @@ class Items extends Database {
         }
 
         // seek pagination (alternative to offset)
-        if (isset($options['offset_from_datetime'])
-            && strlen($options['offset_from_datetime']) > 0
-            && isset($options['offset_from_id'])
-            && is_numeric($options['offset_from_id'])) {
+        if (isset($options['fromDatetime'])
+            && strlen($options['fromDatetime']) > 0
+            && isset($options['fromId'])
+            && is_numeric($options['fromId'])) {
             // discard offset as it makes no sense to mix offset pagination
             // with seek pagination.
             $options['offset'] = 0;
 
-            $offset_from_datetime_sql = $this->stmt->datetime($options['offset_from_datetime']);
+            $offset_from_datetime_sql = $this->stmt->datetime($options['fromDatetime']);
             $params[':offset_from_datetime'] = [
                 $offset_from_datetime_sql, \PDO::PARAM_STR
             ];
@@ -275,7 +288,7 @@ class Items extends Database {
                 $offset_from_datetime_sql, \PDO::PARAM_STR
             ];
             $params[':offset_from_id'] = [
-                $options['offset_from_id'], \PDO::PARAM_INT
+                $options['fromId'], \PDO::PARAM_INT
             ];
             $ltgt = null;
             if ($order == 'ASC') {
@@ -294,11 +307,11 @@ class Items extends Database {
 
         $where_ids = '';
         // extra ids to include in stream
-        if (isset($options['extra_ids'])
-            && count($options['extra_ids']) > 0
+        if (isset($options['extraIds'])
+            && count($options['extraIds']) > 0
             // limit the query to a sensible max
-            && count($options['extra_ids']) <= \F3::get('items_perpage')) {
-            $extra_ids_stmt = $this->stmt->intRowMatches('items.id', $options['extra_ids']);
+            && count($options['extraIds']) <= \F3::get('items_perpage')) {
+            $extra_ids_stmt = $this->stmt->intRowMatches('items.id', $options['extraIds']);
             if (!is_null($extra_ids_stmt)) {
                 $where_ids = $extra_ids_stmt;
             }
@@ -466,7 +479,7 @@ class Items extends Database {
     /**
      * returns the icon of the last fetched item.
      *
-     * @param number $sourceid id of the source
+     * @param int $sourceid id of the source
      *
      * @return bool|string false if none was found
      */
@@ -520,7 +533,7 @@ class Items extends Database {
     /**
      * returns the datetime of the last item update or user action in db
      *
-     * @return timestamp
+     * @return string timestamp
      */
     public function lastUpdate() {
         $res = \F3::get('db')->exec('SELECT

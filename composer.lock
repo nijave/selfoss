@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2197ee437fcc32f4c626534449a9c466",
+    "content-hash": "06b3779e2e7781a4c30d1919ca8d6b74",
     "packages": [
         {
             "name": "bcosca/fatfree-core",
-            "version": "v3.6.0",
+            "version": "3.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bcosca/fatfree-core.git",
-                "reference": "311047de4539c3cd173c378d2d1468cfd0fbfbbf"
+                "reference": "b35fe7ae88f6f3667c50c36563b50e5a1ec36bb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bcosca/fatfree-core/zipball/311047de4539c3cd173c378d2d1468cfd0fbfbbf",
-                "reference": "311047de4539c3cd173c378d2d1468cfd0fbfbbf",
+                "url": "https://api.github.com/repos/bcosca/fatfree-core/zipball/b35fe7ae88f6f3667c50c36563b50e5a1ec36bb1",
+                "reference": "b35fe7ae88f6f3667c50c36563b50e5a1ec36bb1",
                 "shasum": ""
             },
             "require": {
@@ -35,20 +35,282 @@
             ],
             "description": "A powerful yet easy-to-use PHP micro-framework designed to help you build dynamic and robust Web applications - fast!",
             "homepage": "http://fatfreeframework.com/",
-            "time": "2016-11-19T13:22:46+00:00"
+            "time": "2017-12-31T14:47:39+00:00"
         },
         {
-            "name": "fossar/twitteroauth-php54",
-            "version": "0.7.3-beta",
+            "name": "ddeboer/transcoder",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fossar/twitteroauth-php54.git",
-                "reference": "59d49044949c3f615a3da92fdbe4b97db142f1f0"
+                "url": "https://github.com/ddeboer/transcoder.git",
+                "reference": "8781195ad1334add26dca66a4a823b7973639754"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fossar/twitteroauth-php54/zipball/59d49044949c3f615a3da92fdbe4b97db142f1f0",
-                "reference": "59d49044949c3f615a3da92fdbe4b97db142f1f0",
+                "url": "https://api.github.com/repos/ddeboer/transcoder/zipball/8781195ad1334add26dca66a4a823b7973639754",
+                "reference": "8781195ad1334add26dca66a4a823b7973639754",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "ext-iconv": "For using the IconvTranscoder",
+                "ext-mbstring": "For using the MbTranscoder"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ddeboer\\Transcoder\\": "src/",
+                    "Ddeboer\\Transcoder\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David de Boer",
+                    "email": "david@ddeboer.nl"
+                },
+                {
+                    "name": "Community contributors",
+                    "homepage": "https://github.com/ddeboer/transcoder/graphs/contributors"
+                }
+            ],
+            "description": "Better encoding conversion for PHP",
+            "keywords": [
+                "charset",
+                "encoding",
+                "iconv",
+                "iso",
+                "mb",
+                "multibyte",
+                "utf-8"
+            ],
+            "time": "2015-01-23T14:32:33+00:00"
+        },
+        {
+            "name": "electrolinux/php-html5lib",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/electrolinux/php-html5lib.git",
+                "reference": "9f92154993c7ecb120d9f9c0e558660d32846721"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/electrolinux/php-html5lib/zipball/9f92154993c7ecb120d9f9c0e558660d32846721",
+                "reference": "9f92154993c7ecb120d9f9c0e558660d32846721",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "HTML5Lib": "src/",
+                    "HTML5Lib\\Tests": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Multiple users",
+                    "homepage": "https://code.google.com/p/html5lib/",
+                    "role": "Original developers"
+                },
+                {
+                    "name": "Sébastien Lavoie",
+                    "homepage": "http://blog.lavoie.sl",
+                    "role": "Packager"
+                },
+                {
+                    "name": "didier Belot",
+                    "role": "Packager"
+                }
+            ],
+            "description": "A PHP implementations of a HTML parser based on the WHATWG HTML5 specification.",
+            "homepage": "https://github.com/electrolinux/php-html5lib",
+            "keywords": [
+                "HTML5",
+                "php"
+            ],
+            "time": "2013-03-18T18:32:30+00:00"
+        },
+        {
+            "name": "fossar/guzzle-transcoder",
+            "version": "0.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fossar/guzzle-transcoder.git",
+                "reference": "f14ed81f4d3adf879a5386d2ca38b2cd98d2d8fa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fossar/guzzle-transcoder/zipball/f14ed81f4d3adf879a5386d2ca38b2cd98d2d8fa",
+                "reference": "f14ed81f4d3adf879a5386d2ca38b2cd98d2d8fa",
+                "shasum": ""
+            },
+            "require": {
+                "ddeboer/transcoder": "^1.0",
+                "guzzlehttp/guzzle": "^5.3"
+            },
+            "require-dev": {
+                "jakub-onderka/php-parallel-lint": "^0.9.2",
+                "phpunit/phpunit": "~5 || ~4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Fossar\\GuzzleTranscoder\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Tojnar",
+                    "email": "jtojnar@gmail.com"
+                }
+            ],
+            "description": "Guzzle plugin that converts responses to UTF-8",
+            "time": "2017-02-13T10:17:15+00:00"
+        },
+        {
+            "name": "fossar/htmlawed",
+            "version": "1.2.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fossar/HTMLawed.git",
+                "reference": "ef6373a26595e29686bb8e3f46ddc2041b97b0fa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fossar/HTMLawed/zipball/ef6373a26595e29686bb8e3f46ddc2041b97b0fa",
+                "reference": "ef6373a26595e29686bb8e3f46ddc2041b97b0fa",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">4.4.0"
+            },
+            "replace": {
+                "htmlawed/htmlawed": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "htmLawed.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+",
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Santosh Patnaik",
+                    "homepage": "http://www.bioinformatics.org/people/index.php?user_hash=558b661f92d0ff7b",
+                    "role": "Developer"
+                }
+            ],
+            "description": "htmLawed - Process text with HTML markup to make it more compliant with HTML standards and administrative policies",
+            "homepage": "http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/",
+            "keywords": [
+                "HTMLtidy",
+                "html",
+                "sanitize",
+                "strip",
+                "tags"
+            ],
+            "time": "2017-12-06T05:09:01+00:00"
+        },
+        {
+            "name": "fossar/tcpdf-parser",
+            "version": "6.2.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fossar/tcpdf-parser.git",
+                "reference": "70d8956893417b1a9db37365e01d056d5c4e542a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fossar/tcpdf-parser/zipball/70d8956893417b1a9db37365e01d056d5c4e542a",
+                "reference": "70d8956893417b1a9db37365e01d056d5c4e542a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "replace": {
+                "tecnickcom/tcpdf": "6.2.*",
+                "wallabag/tcpdf": "6.2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "tcpdf_parser.php",
+                    "include/tcpdf_filters.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Nicola Asuni",
+                    "email": "info@tecnick.com",
+                    "homepage": "http://nicolaasuni.tecnick.com",
+                    "role": "Main developer"
+                },
+                {
+                    "name": "wallabag/core",
+                    "homepage": "https://www.wallabag.org",
+                    "role": "Developers"
+                }
+            ],
+            "description": "Extracted the parser from tcpdf.",
+            "homepage": "https://www.wallabag.org/",
+            "keywords": [
+                "PDFD32000-2008",
+                "TCPDF",
+                "barcodes",
+                "datamatrix",
+                "pdf",
+                "pdf417",
+                "qrcode"
+            ],
+            "time": "2017-03-18T13:19:42+00:00"
+        },
+        {
+            "name": "fossar/twitteroauth-php54",
+            "version": "0.7.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fossar/twitteroauth-php54.git",
+                "reference": "76bbf1cf1d5c90e287c963fdde98c227d6070eaa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fossar/twitteroauth-php54/zipball/76bbf1cf1d5c90e287c963fdde98c227d6070eaa",
+                "reference": "76bbf1cf1d5c90e287c963fdde98c227d6070eaa",
                 "shasum": ""
             },
             "require": {
@@ -89,76 +351,341 @@
                 "social",
                 "twitter"
             ],
-            "time": "2017-02-13T19:10:28+00:00"
+            "time": "2017-06-01T02:48:08+00:00"
         },
         {
-            "name": "htmlawed/htmlawed",
-            "version": "1.1.22",
+            "name": "guzzlehttp/guzzle",
+            "version": "5.3.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/kesar/HTMLawed.git",
-                "reference": "b270453ba016ee4c6dae585f047d1e4f3cc456a1"
+                "url": "https://github.com/guzzle/guzzle.git",
+                "reference": "f9acb4761844317e626a32259205bec1f1bc60d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kesar/HTMLawed/zipball/b270453ba016ee4c6dae585f047d1e4f3cc456a1",
-                "reference": "b270453ba016ee4c6dae585f047d1e4f3cc456a1",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/f9acb4761844317e626a32259205bec1f1bc60d2",
+                "reference": "f9acb4761844317e626a32259205bec1f1bc60d2",
                 "shasum": ""
             },
             "require": {
-                "php": ">4.4.0"
+                "guzzlehttp/ringphp": "^1.1",
+                "php": ">=5.4.0",
+                "react/promise": "^2.2"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "phpunit/phpunit": "^4.0"
             },
             "type": "library",
             "autoload": {
-                "files": [
-                    "htmLawed.php"
-                ]
+                "psr-4": {
+                    "GuzzleHttp\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL-2.0+",
-                "LGPL-3.0"
+                "MIT"
             ],
             "authors": [
                 {
-                    "name": "Santosh Patnaik",
-                    "homepage": "http://www.bioinformatics.org/people/index.php?user_hash=558b661f92d0ff7b",
-                    "role": "Developer"
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
                 }
             ],
-            "description": "htmLawed - Process text with HTML markup to make it more compliant with HTML standards and administrative policies",
-            "homepage": "http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/",
+            "description": "Guzzle is a PHP HTTP client library and framework for building RESTful web service clients",
+            "homepage": "http://guzzlephp.org/",
             "keywords": [
-                "HTMLtidy",
-                "html",
-                "sanitize",
-                "strip",
-                "tags"
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "rest",
+                "web service"
             ],
-            "time": "2016-08-27T18:53:27+00:00"
+            "time": "2018-01-15T07:18:01+00:00"
         },
         {
-            "name": "j0k3r/php-readability",
-            "version": "1.1.5",
+            "name": "guzzlehttp/log-subscriber",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/j0k3r/php-readability.git",
-                "reference": "a505a13d0ca972a115411504248fc4506ddaece9"
+                "url": "https://github.com/guzzle/log-subscriber.git",
+                "reference": "99c3c0004165db721d8ef7bbef60c996210e538a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/j0k3r/php-readability/zipball/a505a13d0ca972a115411504248fc4506ddaece9",
-                "reference": "a505a13d0ca972a115411504248fc4506ddaece9",
+                "url": "https://api.github.com/repos/guzzle/log-subscriber/zipball/99c3c0004165db721d8ef7bbef60c996210e538a",
+                "reference": "99c3c0004165db721d8ef7bbef60c996210e538a",
                 "shasum": ""
             },
             "require": {
+                "guzzlehttp/guzzle": "~4.0 | ~5.0",
+                "php": ">=5.4.0",
+                "psr/log": "~1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Subscriber\\Log\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Logs HTTP requests and responses as they are sent over the wire (Guzzle 4+)",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "Guzzle",
+                "log",
+                "plugin"
+            ],
+            "time": "2014-10-13T03:31:43+00:00"
+        },
+        {
+            "name": "guzzlehttp/ringphp",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/RingPHP.git",
+                "reference": "dbbb91d7f6c191e5e405e900e3102ac7f261bc0b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/RingPHP/zipball/dbbb91d7f6c191e5e405e900e3102ac7f261bc0b",
+                "reference": "dbbb91d7f6c191e5e405e900e3102ac7f261bc0b",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/streams": "~3.0",
+                "php": ">=5.4.0",
+                "react/promise": "~2.0"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "ext-curl": "Guzzle will use specific adapters if cURL is present"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Ring\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Provides a simple API and specification that abstracts away the details of HTTP into a single PHP function.",
+            "time": "2015-05-20T03:37:09+00:00"
+        },
+        {
+            "name": "guzzlehttp/streams",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/streams.git",
+                "reference": "47aaa48e27dae43d39fc1cea0ccf0d84ac1a2ba5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/streams/zipball/47aaa48e27dae43d39fc1cea0ccf0d84ac1a2ba5",
+                "reference": "47aaa48e27dae43d39fc1cea0ccf0d84ac1a2ba5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Stream\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Provides a simple abstraction over streams of data",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "Guzzle",
+                "stream"
+            ],
+            "time": "2014-10-12T19:18:40+00:00"
+        },
+        {
+            "name": "j0k3r/graby",
+            "version": "1.12.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/j0k3r/graby.git",
+                "reference": "6b4de3766ea5f8930cd1d62f06e95470a25740f9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/j0k3r/graby/zipball/6b4de3766ea5f8930cd1d62f06e95470a25740f9",
+                "reference": "6b4de3766ea5f8930cd1d62f06e95470a25740f9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "fossar/htmlawed": "^1.2.4",
+                "guzzlehttp/guzzle": "^5.2.0",
+                "j0k3r/graby-site-config": "^1.0",
+                "j0k3r/php-readability": "^1.0",
+                "j0k3r/safecurl": "~2.0",
+                "monolog/monolog": "^1.13.1",
+                "php": ">=5.4",
+                "simplepie/simplepie": "^1.3.1",
+                "smalot/pdfparser": "~0.11",
+                "symfony/options-resolver": "~2.6|~3.0",
+                "true/punycode": "~2.0",
+                "wallabag/tcpdf": "^6.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "~2.0",
+                "satooshi/php-coveralls": "~0.6",
+                "symfony/phpunit-bridge": "~2.6|~3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Graby\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeremy Benoist",
+                    "email": "jeremy.benoist@gmail.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "FiveFilters.org",
+                    "email": "fivefilters@fivefilters.org",
+                    "role": "Developer (original version)"
+                }
+            ],
+            "description": "Graby helps you extract article content from web pages",
+            "time": "2017-12-09T17:43:54+00:00"
+        },
+        {
+            "name": "j0k3r/graby-site-config",
+            "version": "1.0.46",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/j0k3r/graby-site-config.git",
+                "reference": "4f7ced028752a9fdaac8a5d72ba9991021ba4ff9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/j0k3r/graby-site-config/zipball/4f7ced028752a9fdaac8a5d72ba9991021ba4ff9",
+                "reference": "4f7ced028752a9fdaac8a5d72ba9991021ba4ff9",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/finder": "~2.6|~3.0"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GrabySiteConfig\\SiteConfig\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "CC0-1.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jeremy Benoist",
+                    "email": "jeremy.benoist@gmail.com"
+                }
+            ],
+            "description": "Graby site config files",
+            "time": "2018-01-29T08:32:28+00:00"
+        },
+        {
+            "name": "j0k3r/php-readability",
+            "version": "1.1.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/j0k3r/php-readability.git",
+                "reference": "6427dd7371d797ba49a5ed22db8b56198a430eb5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/j0k3r/php-readability/zipball/6427dd7371d797ba49a5ed22db8b56198a430eb5",
+                "reference": "6427dd7371d797ba49a5ed22db8b56198a430eb5",
+                "shasum": ""
+            },
+            "require": {
+                "electrolinux/php-html5lib": "^0.1.0",
+                "ext-mbstring": "*",
                 "php": ">=5.3.3",
                 "psr/log": "^1.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "<2",
                 "monolog/monolog": "^1.13",
-                "satooshi/php-coveralls": "~0.6"
+                "satooshi/php-coveralls": "~0.6",
+                "symfony/phpunit-bridge": "^3.2"
+            },
+            "suggest": {
+                "ext-tidy": "Used to clean up given HTML and to avoid problems with bad HTML structure."
             },
             "type": "library",
             "autoload": {
@@ -203,7 +730,59 @@
                 "extraction",
                 "html"
             ],
-            "time": "2017-01-14T16:09:58+00:00"
+            "time": "2017-06-30T14:50:09+00:00"
+        },
+        {
+            "name": "j0k3r/safecurl",
+            "version": "2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/j0k3r/safecurl.git",
+                "reference": "d5b7a0dcda23f8fd6a3f0ca3dac080e38388ba4b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/j0k3r/safecurl/zipball/d5b7a0dcda23f8fd6a3f0ca3dac080e38388ba4b",
+                "reference": "d5b7a0dcda23f8fd6a3f0ca3dac080e38388ba4b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "fin1te\\SafeCurl\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeremy Benoist",
+                    "email": "jeremy.benoist@gmail.com"
+                },
+                {
+                    "name": "Jack W",
+                    "email": "jack@fin1te.net",
+                    "role": "Developer (original version)"
+                }
+            ],
+            "description": "A drop-in replacement for 'curl_exec', designed to prevent SSRF attacks.",
+            "keywords": [
+                "curl",
+                "safe",
+                "safecurl",
+                "ssrf",
+                "websec"
+            ],
+            "time": "2015-11-23T08:16:01+00:00"
         },
         {
             "name": "linkorb/jsmin-php",
@@ -261,6 +840,57 @@
                 "minify"
             ],
             "time": "2013-03-15T13:16:35+00:00"
+        },
+        {
+            "name": "lordelph/icofileloader",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lordelph/icofileloader.git",
+                "reference": "c5994a348068be137cf127d1345b8781dffac0fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lordelph/icofileloader/zipball/c5994a348068be137cf127d1345b8781dffac0fe",
+                "reference": "c5994a348068be137cf127d1345b8781dffac0fe",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "jakub-onderka/php-parallel-lint": "dev-master",
+                "phpunit/phpunit": "~5 || ~4",
+                "squizlabs/php_codesniffer": "^2.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Elphin\\IcoFileLoader\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Dixon",
+                    "email": "paul@elphin.com"
+                }
+            ],
+            "description": "High quality PHP package for reading and converting any .ico icon file, particularly website favicons",
+            "homepage": "http://icofileloader.dixo.net/",
+            "keywords": [
+                "convert",
+                "extract",
+                "favicon",
+                "ico",
+                "icon",
+                "load"
+            ],
+            "time": "2017-05-14T20:00:45+00:00"
         },
         {
             "name": "mibe/feedwriter",
@@ -361,16 +991,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.22.0",
+            "version": "1.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "bad29cb8d18ab0315e6c477751418a82c850d558"
+                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/bad29cb8d18ab0315e6c477751418a82c850d558",
-                "reference": "bad29cb8d18ab0315e6c477751418a82c850d558",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
+                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
                 "shasum": ""
             },
             "require": {
@@ -391,7 +1021,7 @@
                 "phpunit/phpunit-mock-objects": "2.3.0",
                 "ruflin/elastica": ">=0.90 <3.0",
                 "sentry/sentry": "^0.13",
-                "swiftmailer/swiftmailer": "~5.3"
+                "swiftmailer/swiftmailer": "^5.3|^6.0"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
@@ -435,20 +1065,20 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2016-11-26T00:15:39+00:00"
+            "time": "2017-06-19T01:22:40+00:00"
         },
         {
             "name": "natxet/CssMin",
-            "version": "v3.0.4",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/natxet/CssMin.git",
-                "reference": "92de3fe3ccb4f8298d31952490ef7d5395855c39"
+                "reference": "d5d9f4c3e5cedb1ae96a95a21731f8790e38f1dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/natxet/CssMin/zipball/92de3fe3ccb4f8298d31952490ef7d5395855c39",
-                "reference": "92de3fe3ccb4f8298d31952490ef7d5395855c39",
+                "url": "https://api.github.com/repos/natxet/CssMin/zipball/d5d9f4c3e5cedb1ae96a95a21731f8790e38f1dd",
+                "reference": "d5d9f4c3e5cedb1ae96a95a21731f8790e38f1dd",
                 "shasum": ""
             },
             "require": {
@@ -482,7 +1112,7 @@
                 "css",
                 "minify"
             ],
-            "time": "2015-09-25T11:13:11+00:00"
+            "time": "2018-01-09T11:15:01+00:00"
         },
         {
             "name": "psr/log",
@@ -532,17 +1162,63 @@
             "time": "2016-10-10T12:19:37+00:00"
         },
         {
-            "name": "simplepie/simplepie",
-            "version": "1.4.3",
+            "name": "react/promise",
+            "version": "v2.5.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/simplepie/simplepie.git",
-                "reference": "2a24b6e74aa9bf33243020f52895fe77efe94ccf"
+                "url": "https://github.com/reactphp/promise.git",
+                "reference": "62785ae604c8d69725d693eb370e1d67e94c4053"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplepie/simplepie/zipball/2a24b6e74aa9bf33243020f52895fe77efe94ccf",
-                "reference": "2a24b6e74aa9bf33243020f52895fe77efe94ccf",
+                "url": "https://api.github.com/repos/reactphp/promise/zipball/62785ae604c8d69725d693eb370e1d67e94c4053",
+                "reference": "62785ae604c8d69725d693eb370e1d67e94c4053",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "React\\Promise\\": "src/"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Sorgalla",
+                    "email": "jsorgalla@gmail.com"
+                }
+            ],
+            "description": "A lightweight implementation of CommonJS Promises/A for PHP",
+            "keywords": [
+                "promise",
+                "promises"
+            ],
+            "time": "2017-03-25T12:08:31+00:00"
+        },
+        {
+            "name": "simplepie/simplepie",
+            "version": "1.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/simplepie/simplepie.git",
+                "reference": "db9fff27b6d49eed3d4047cd3211ec8dba2f5d6e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/simplepie/simplepie/zipball/db9fff27b6d49eed3d4047cd3211ec8dba2f5d6e",
+                "reference": "db9fff27b6d49eed3d4047cd3211ec8dba2f5d6e",
                 "shasum": ""
             },
             "require": {
@@ -589,7 +1265,56 @@
                 "feeds",
                 "rss"
             ],
-            "time": "2016-11-27T01:39:18+00:00"
+            "time": "2017-11-12T02:03:34+00:00"
+        },
+        {
+            "name": "smalot/pdfparser",
+            "version": "v0.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/smalot/pdfparser.git",
+                "reference": "40462c1a662d5fbc8f48d30626695a06f047e0cf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/40462c1a662d5fbc8f48d30626695a06f047e0cf",
+                "reference": "40462c1a662d5fbc8f48d30626695a06f047e0cf",
+                "shasum": ""
+            },
+            "require": {
+                "ext-iconv": "*",
+                "php": ">=5.3.0",
+                "tecnickcom/tcpdf": "~6.0"
+            },
+            "require-dev": {
+                "atoum/atoum": "^2.8 | ^3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Smalot\\PdfParser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPLv3"
+            ],
+            "authors": [
+                {
+                    "name": "Sébastien MALOT",
+                    "email": "sebastien@malot.fr"
+                }
+            ],
+            "description": "Pdf parser library. Can read and extract information from pdf file.",
+            "homepage": "http://www.pdfparser.org",
+            "keywords": [
+                "extract",
+                "parse",
+                "parser",
+                "pdf",
+                "text"
+            ],
+            "time": "2017-09-14T12:26:16+00:00"
         },
         {
             "name": "smottt/wideimage",
@@ -627,17 +1352,225 @@
             "time": "2016-11-13T13:03:08+00:00"
         },
         {
-            "name": "willwashburn/phpamo",
-            "version": "1.0.0",
+            "name": "symfony/finder",
+            "version": "v2.8.35",
             "source": {
                 "type": "git",
-                "url": "https://github.com/willwashburn/phpamo.git",
-                "reference": "f89734acf7ff9b0bc49d3acfe64a93705527eef3"
+                "url": "https://github.com/symfony/finder.git",
+                "reference": "7099de3ebc97d3af98c464076d12dfca3ade0252"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willwashburn/phpamo/zipball/f89734acf7ff9b0bc49d3acfe64a93705527eef3",
-                "reference": "f89734acf7ff9b0bc49d3acfe64a93705527eef3",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/7099de3ebc97d3af98c464076d12dfca3ade0252",
+                "reference": "7099de3ebc97d3af98c464076d12dfca3ade0252",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Finder\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Finder Component",
+            "homepage": "https://symfony.com",
+            "time": "2018-02-11T16:53:59+00:00"
+        },
+        {
+            "name": "symfony/options-resolver",
+            "version": "v2.8.35",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/options-resolver.git",
+                "reference": "7b627d71e038f65c58702ad2540d0452cf53cf67"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/7b627d71e038f65c58702ad2540d0452cf53cf67",
+                "reference": "7b627d71e038f65c58702ad2540d0452cf53cf67",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\OptionsResolver\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony OptionsResolver Component",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "config",
+                "configuration",
+                "options"
+            ],
+            "time": "2018-01-03T07:36:31+00:00"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "version": "v1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-mbstring.git",
+                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/78be803ce01e55d3491c1397cf1c64beb9c1b63b",
+                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-mbstring": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.7-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for the Mbstring extension",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "mbstring",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2018-01-30T19:27:44+00:00"
+        },
+        {
+            "name": "true/punycode",
+            "version": "v2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/true/php-punycode.git",
+                "reference": "a4d0c11a36dd7f4e7cd7096076cab6d3378a071e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/true/php-punycode/zipball/a4d0c11a36dd7f4e7cd7096076cab6d3378a071e",
+                "reference": "a4d0c11a36dd7f4e7cd7096076cab6d3378a071e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "symfony/polyfill-mbstring": "^1.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.7",
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TrueBV\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Renan Gonçalves",
+                    "email": "renan.saddam@gmail.com"
+                }
+            ],
+            "description": "A Bootstring encoding of Unicode for Internationalized Domain Names in Applications (IDNA)",
+            "homepage": "https://github.com/true/php-punycode",
+            "keywords": [
+                "idna",
+                "punycode"
+            ],
+            "time": "2016-11-16T10:37:54+00:00"
+        },
+        {
+            "name": "willwashburn/phpamo",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/willwashburn/phpamo.git",
+                "reference": "4c8e579bc9be5d8eabc06ed4de22235386b2dbf1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/willwashburn/phpamo/zipball/4c8e579bc9be5d8eabc06ed4de22235386b2dbf1",
+                "reference": "4c8e579bc9be5d8eabc06ed4de22235386b2dbf1",
                 "shasum": ""
             },
             "require": {
@@ -673,7 +1606,7 @@
                 "tls",
                 "tls proxy"
             ],
-            "time": "2016-02-20T05:25:18+00:00"
+            "time": "2017-01-30T13:21:01+00:00"
         }
     ],
     "packages-dev": [],
@@ -688,5 +1621,8 @@
         "php": ">= 5.4",
         "ext-gd": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "platform-overrides": {
+        "php": "5.4.45"
+    }
 }

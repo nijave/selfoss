@@ -2,6 +2,8 @@
 
 namespace helpers;
 
+use Elphin\IcoFileLoader\IcoFileService;
+use GuzzleHttp;
 use WideImage\WideImage;
 
 /**
@@ -14,6 +16,18 @@ use WideImage\WideImage;
 class Image {
     /** @var string url of last fetched favicon */
     private $faviconUrl = false;
+
+    private static $faviconMimeTypes = [
+        // IANA assigned type
+        'image/vnd.microsoft.icon',
+        // Used by Microsoft applications
+        'image/x-icon',
+        // Incorrect but sometimes appearing
+        'image/ico',
+        'image/icon',
+        'text/ico',
+        'application/ico'
+    ];
 
     /**
      * fetch favicon
@@ -44,16 +58,8 @@ class Image {
         }
 
         $shortcutIcon = $this->parseShortcutIcon($html);
-        if ($shortcutIcon !== false) {
-            if (substr($shortcutIcon, 0, 4) != 'http') {
-                if (substr($shortcutIcon, 0, 2) == '//') {
-                    $shortcutIcon = $urlElements['scheme'] . ':' . $shortcutIcon;
-                } elseif (substr($shortcutIcon, 0, 1) == '/') {
-                    $shortcutIcon = $urlElements['scheme'] . '://' . $urlElements['host'] . $shortcutIcon;
-                } else {
-                    $shortcutIcon = (strrpos($url, '/') === strlen($url) - 1) ? $url . $shortcutIcon : $url . '/' . $shortcutIcon;
-                }
-            }
+        if ($shortcutIcon !== null) {
+            $shortcutIcon = (string) GuzzleHttp\Url::fromString($url)->combine($shortcutIcon);
 
             $faviconAsPng = $this->loadImage($shortcutIcon, $width, $height);
             if ($faviconAsPng !== false) {
@@ -98,10 +104,8 @@ class Image {
         }
 
         // get image type
-        $tmp = \F3::get('cache') . '/' . md5($url);
-        file_put_contents($tmp, $data);
-        $imgInfo = @getimagesize($tmp);
-        if (strtolower($imgInfo['mime']) == 'image/vnd.microsoft.icon') {
+        $imgInfo = @getimagesizefromstring($data);
+        if (in_array(strtolower($imgInfo['mime']), self::$faviconMimeTypes, true)) {
             $type = 'ico';
         } elseif (strtolower($imgInfo['mime']) == 'image/png') {
             $type = 'png';
@@ -112,28 +116,42 @@ class Image {
         } elseif (strtolower($imgInfo['mime']) == 'image/x-ms-bmp') {
             $type = 'bmp';
         } else {
-            @unlink($tmp);
-
             return false;
         }
 
         // convert ico to png
         if ($type == 'ico') {
-            $ico = new \floIcon();
-            @$ico->readICO($tmp);
-            if (count($ico->images) == 0) {
-                @unlink($tmp);
+            $loader = new IcoFileService();
+            try {
+                $icon = $loader->fromString($data);
+            } catch (\InvalidArgumentException $e) {
+                \F3::get('logger')->error("Icon “{$url}” is not valid", ['exception' => $e]);
 
                 return false;
             }
+
+            $image = null;
+            if ($width !== false && $height !== false) {
+                $image = $icon->findBestForSize($width, $height);
+            }
+
+            if ($image === null) {
+                $image = $icon->findBest();
+            }
+
+            if ($image === null) {
+                return false;
+            }
+
+            $data = $loader->renderImage($image);
+
             ob_start();
-            @imagepng($ico->images[count($ico->images) - 1]->getImageResource());
+            imagepng($data);
             $data = ob_get_contents();
             ob_end_clean();
         }
 
         // parse image for saving it later
-        @unlink($tmp);
         try {
             $wideImage = WideImage::load($data);
         } catch (\Exception $e) {
@@ -172,23 +190,30 @@ class Image {
      *
      * @param string $html
      *
-     * @return string favicon url
+     * @return ?string favicon url
      */
     private function parseShortcutIcon($html) {
-        $result = preg_match('/<link .*rel=("|\')apple-touch-icon\1.*>/Ui', $html, $match1);
-        if ($result == 0) {
-            $result = preg_match('/<link [^>]*rel=("|\')shortcut icon\1.*>/Ui', $html, $match1);
+        $dom = new \DomDocument();
+        if (@$dom->loadHTML($html) !== true) {
+            return null;
         }
-        if ($result == 0) {
-            $result = preg_match('/<link [^>]*rel=("|\')icon\1.*>/Ui', $html, $match1);
+
+        $xpath = new \DOMXPath($dom);
+        $elems = $xpath->query("//link[@rel='apple-touch-icon']");
+        if ($elems->length === 0) {
+            $elems = $xpath->query("//link[@rel='shortcut icon']");
         }
-        if ($result > 0) {
-            $result = preg_match('/href=("|\')(.+)\1/Ui', $match1[0], $match2);
-            if ($result > 0) {
-                return $match2[2];
+        if ($elems->length === 0) {
+            $elems = $xpath->query("//link[@rel='icon']");
+        }
+
+        if ($elems->length > 0) {
+            $icon = $elems->item(0);
+            if ($icon->hasAttribute('href')) {
+                return $icon->getAttribute('href');
             }
         }
 
-        return false;
+        return null;
     }
 }

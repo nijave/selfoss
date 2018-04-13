@@ -3,6 +3,7 @@
 namespace spouts\twitter;
 
 use Abraham\TwitterOAuth\TwitterOAuth;
+use stdClass;
 
 /**
  * Spout for fetching an rss feed
@@ -80,6 +81,9 @@ class usertimeline extends \spouts\spout {
     /** @var array|bool current fetched items */
     protected $items = false;
 
+    /** @var string URL of the source */
+    protected $htmlUrl = '';
+
     //
     // Iterator Interface
     //
@@ -98,7 +102,7 @@ class usertimeline extends \spouts\spout {
     /**
      * receive current item
      *
-     * @return SimplePie_Item current item
+     * @return \SimplePie_Item current item
      */
     public function current() {
         if ($this->items !== false) {
@@ -124,7 +128,7 @@ class usertimeline extends \spouts\spout {
     /**
      * select next item
      *
-     * @return SimplePie_Item next item
+     * @return \SimplePie_Item next item
      */
     public function next() {
         if ($this->items !== false) {
@@ -163,7 +167,12 @@ class usertimeline extends \spouts\spout {
     public function load($params) {
         $access_token_used = !empty($params['access_token']) && !empty($params['access_token_secret']);
         $twitter = new TwitterOAuth($params['consumer_key'], $params['consumer_secret'], $access_token_used ? $params['access_token'] : null, $access_token_used ? $params['access_token_secret'] : null);
-        $timeline = $twitter->get('statuses/user_timeline', ['screen_name' => $params['username'], 'include_rts' => 1, 'count' => 50]);
+        $timeline = $twitter->get('statuses/user_timeline', [
+            'screen_name' => $params['username'],
+            'include_rts' => 1,
+            'count' => 50,
+            'tweet_mode' => 'extended',
+        ]);
 
         if (isset($timeline->errors)) {
             $errors = '';
@@ -224,7 +233,9 @@ class usertimeline extends \spouts\spout {
                 $rt = ' (RT ' . $item->user->name . ')';
                 $item = $item->retweeted_status;
             }
-            $tweet = $item->user->name . $rt . ':<br>' . $this->formatLinks($item->text);
+
+            $entities = self::formatEntities($item->entities);
+            $tweet = $item->user->name . $rt . ':<br>' . self::replaceEntities($item->full_text, $entities);
 
             return $tweet;
         }
@@ -238,7 +249,33 @@ class usertimeline extends \spouts\spout {
      * @return string content
      */
     public function getContent() {
-        return;
+        $result = '';
+
+        if ($this->items !== false) {
+            $item = current($this->items);
+            if (isset($item->retweeted_status)) {
+                $item = $item->retweeted_status;
+            }
+
+            if (isset($item->extended_entities) && isset($item->extended_entities->media) && count($item->extended_entities->media) > 1) {
+                foreach ($item->extended_entities->media as $media) {
+                    if ($media->type === 'photo') {
+                        $result .= '<p><a href="' . $media->media_url_https . ':large"><img src="' . $media->media_url_https . ':small" alt=""></a></p>' . PHP_EOL;
+                    }
+                }
+            }
+
+            if (isset($item->quoted_status)) {
+                $quoted = $item->quoted_status;
+                $tweet_url = 'https://twitter.com/' . $quoted->user->screen_name . '/status/' . $quoted->status_id_str;
+                $entities = self::formatEntities($quoted->entities);
+
+                $result .= '<a href="https://twitter.com/' . $quoted->user->screen_name . '">@' . $quoted->user->screen_name . '</a>:';
+                $result .= '<blockquote>' . self::replaceEntities($quoted->full_text, $entities) . '</blockquote>';
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -253,7 +290,7 @@ class usertimeline extends \spouts\spout {
                 $item = $item->retweeted_status;
             }
 
-            return $item->user->profile_image_url;
+            return $item->user->profile_image_url_https;
         }
 
         return false;
@@ -286,7 +323,7 @@ class usertimeline extends \spouts\spout {
                 $item = $item->retweeted_status;
             }
             if (isset($item->entities->media) && $item->entities->media[0]->type === 'photo') {
-                return $item->entities->media[0]->media_url;
+                return $item->entities->media[0]->media_url_https;
             }
         }
 
@@ -318,19 +355,93 @@ class usertimeline extends \spouts\spout {
     }
 
     /**
-     * format links and emails as clickable
+     * convert URLs, handles and hashtags as links
      *
      * @param string $text unformated text
+     * @param array $entities ordered entities
      *
      * @return string formated text
      */
-    public function formatLinks($text) {
-        $text = htmlspecialchars($text);
-        $text = preg_replace("/([\w-?&;#~=\.\/]+\@(\[?)[a-zA-Z0-9\-\.]+\.([a-zA-Z]{2,3}|[0-9]{1,3})(\]?))/i", '<a href="mailto:$1">$1</a>', $text);
-        $text = str_replace('http://www.', 'www.', $text);
-        $text = str_replace('www.', 'http://www.', $text);
-        $text = preg_replace("/([\w]+:\/\/[\w-?&;#~=\.\/\@]+[\w\/])/i", '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>', $text);
+    public static function replaceEntities($text, array $entities) {
+        /** @var string built text */
+        $result = '';
+        /** @var int number of bytes in text */
+        $length = strlen($text);
+        /** @var int index of a byte in the text */
+        $i = 0;
+        /** @var int index of a UTF-8 codepoint in the text */
+        $cpi = -1;
+        /** @var int index of a UTF-8 codepoint where the last entity ends */
+        $skipUntilCp = -1;
 
-        return $text;
+        while ($i < $length) {
+            $c = $text[$i];
+
+            ++$i;
+
+            // UTF-8 continuation bytes are not counted
+            if (!((ord($c) & 0b10000000) && !(ord($c) & 0b01000000))) {
+                ++$cpi;
+            }
+
+            if ($skipUntilCp <= $cpi) {
+                if (isset($entities[$cpi])) {
+                    $entity = $entities[$cpi];
+                    $appended = '<a href="' . $entity['url'] . '" target="_blank" rel="noopener noreferrer">' . $entity['text'] . '</a>';
+                    $skipUntilCp = $entity['end'];
+                } else {
+                    $appended = $c;
+                }
+
+                $result .= $appended;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Convert entities returned by Twitter API into more convenient representation
+     *
+     * @param stdClass $groupedEntities entities returned by Twitter API
+     *
+     * @return array flattened and ordered array of entities
+     */
+    public static function formatEntities(stdClass $groupedEntities) {
+        $result = [];
+
+        foreach ($groupedEntities as $type => $entities) {
+            foreach ($entities as $entity) {
+                $start = $entity->indices[0];
+                $end = $entity->indices[1];
+                if ($type === 'hashtags') {
+                    $result[$start] = [
+                        'text' => '#' . $entity->text,
+                        'url' => 'https://twitter.com/hashtag/' . urlencode($entity->text),
+                        'end' => $end,
+                    ];
+                } elseif ($type === 'symbols') {
+                    $result[$start] = [
+                        'text' => '$' . $entity->text,
+                        'url' => 'https://twitter.com/search?q=%24' . urlencode($entity->text),
+                        'end' => $end,
+                    ];
+                } elseif ($type === 'user_mentions') {
+                    $result[$start] = [
+                        'text' => '@' . $entity->screen_name,
+                        'url' => 'https://twitter.com/' . urlencode($entity->screen_name),
+                        'end' => $end,
+                    ];
+                } elseif ($type === 'urls' || $type === 'media') {
+                    $result[$start] = [
+                        'text' => $entity->display_url,
+                        'url' => $entity->expanded_url,
+                        'end' => $end,
+                    ];
+                }
+            }
+        }
+
+        return $result;
     }
 }

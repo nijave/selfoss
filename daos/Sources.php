@@ -32,7 +32,7 @@ class Sources extends Database {
      * @param string $name name of the function
      * @param array $args arguments
      *
-     * @return methods return value
+     * @return mixed methods return value
      */
     public function __call($name, $args) {
         if (method_exists($this->backend, $name)) {
@@ -88,9 +88,7 @@ class Sources extends Database {
         $spout = $spoutLoader->get($spout);
         if ($spout == false) {
             $result['spout'] = 'invalid spout type';
-
-        // check params
-        } else {
+        } else { // check params
             // params given but not expected
             if ($spout->params === false) {
                 if (is_array($spout->params) && count($spout->params) > 0) {

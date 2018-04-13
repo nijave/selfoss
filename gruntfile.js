@@ -5,6 +5,8 @@ function isNotUnimportant(dest) {
 
     const filenameDisallowed = [
         /^changelog/i,
+        /^contributing/i,
+        /^upgrading/i,
         /^copying/i,
         /^readme/i,
         /^licen[cs]e/i,
@@ -12,18 +14,21 @@ function isNotUnimportant(dest) {
         /^phpunit/,
         /^l?gpl\.txt$/,
         /^composer\.(json|lock)$/,
+        /^Makefile$/,
         /^build\.xml$/,
         /^phpcs-ruleset\.xml$/,
         /^phpmd\.xml$/
-    ].some(function(expr) { expr.test(filename) });
+    ].some(function(expr) { return expr.test(filename); });
 
     const destDisallowed = [
         /^vendor\/htmlawed\/htmlawed\/htmLawed(Test\.php|(.*\.(htm|txt)))$/,
         /^vendor\/smottt\/wideimage\/demo/,
         /^vendor\/simplepie\/simplepie\/(db\.sql|autoload\.php)$/,
         /^vendor\/composer\/installed\.json$/,
-        /^vendor\/[^/]+\/[^/]+\/(test|doc)s?/
-    ].some(function(expr) { expr.test(dest) });
+        /^vendor\/[^/]+\/[^/]+\/(test|doc)s?/i,
+        /^vendor\/smalot\/pdfparser\/samples/,
+        /^vendor\/smalot\/pdfparser\/src\/Smalot\/PdfParser\/Tests/,
+    ].some(function(expr) { return expr.test(dest); });
 
     const allowed = !(filenameDisallowed || destDisallowed);
 
@@ -31,9 +36,24 @@ function isNotUnimportant(dest) {
 }
 
 module.exports = function(grunt) {
+    const requiredAssets = (function() {
+        const files = grunt.file.readJSON('public/package.json').extra.requiredFiles;
+
+        return files.css.concat(files.js);
+    })();
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+
+        /* Install client-side dependencies */
+        auto_install: {
+            subdir: {
+                options: {
+                    cwd: 'public',
+                    npm: '--production'
+                }
+            }
+        },
 
         /* version text replace */
         replace: {
@@ -42,6 +62,7 @@ module.exports = function(grunt) {
                     'package.json',
                     'README.md',
                     'common.php',
+                    'docs/api-description.json',
                     '_docs/website/index.html'
                 ],
                 overwrite: true,
@@ -54,14 +75,20 @@ module.exports = function(grunt) {
 
                 // rule for README.md
                 {
-                    from: /'version','\d+\.\d+(\-SNAPSHOT)?'/,
-                    to: ("'version','" + grunt.option('newversion') + "'")
+                    from: /'version', '\d+\.\d+(\-SNAPSHOT)?'/,
+                    to: ("'version', '" + grunt.option('newversion') + "'")
                 },
 
                 // rule for common.php
                 {
                     from: /Version \d+\.\d+(\-SNAPSHOT)?/,
                     to: ("Version " + grunt.option('newversion'))
+                },
+
+                // rule for docs/api-description.json
+                {
+                    from: /"version": "\d+\.\d+(\-SNAPSHOT)?"/,
+                    to: ('"version": "' + grunt.option('newversion') + '"')
                 },
 
                 // rule for website/index.html
@@ -82,12 +109,15 @@ module.exports = function(grunt) {
                     { expand: true, cwd: 'controllers/', src: ['**'], dest: '/controllers'},
                     { expand: true, cwd: 'daos/', src: ['**'], dest: '/daos'},
                     { expand: true, cwd: 'helpers/', src: ['**'], dest: '/helpers'},
-                    { expand: true, cwd: 'libs/', src: ['**'], dest: '/libs'},
                     { expand: true, cwd: 'vendor/', src: ['**'], dest: '/vendor', filter: isNotUnimportant},
 
-                    // public = don't zip all.js and all.css
+                    // do not pack bundled assets and assets not listed in index.php
                     { expand: true, cwd: 'public/', src: ['**'], dest: '/public', filter: function(file) {
-                        return file.indexOf('all.js') === -1 && file.indexOf('all.css') === -1;
+                        const bundle = file === 'public/all.js' || file === 'public/all.css';
+                        const thirdPartyRubbish = file.startsWith('public/node_modules/') && requiredAssets.indexOf(file) === -1;
+                        const allowed = !bundle && !thirdPartyRubbish;
+
+                        return allowed;
                     }},
 
                     // copy data: only directory structure and .htaccess for deny
@@ -109,12 +139,18 @@ module.exports = function(grunt) {
                     { src: ['cliupdate.php'], dest: '' }
                 ]
             }
+        },
+
+        eslint: {
+            target: ['public/js/selfoss-*.js']
         }
     });
 
+    grunt.loadNpmTasks('grunt-auto-install');
     grunt.loadNpmTasks('grunt-text-replace');
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-composer');
+    grunt.loadNpmTasks('grunt-eslint');
 
     /* task checks whether newversion is given and start replacement in files if correct format is given */
     grunt.registerTask('versionupdater', 'version update task', function() {
@@ -127,7 +163,15 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('default', ['composer:install:no-dev:optimize-autoloader:prefer-dist', 'versionupdater', 'compress']);
+    grunt.registerTask('client:install', 'Install client-side dependencies.', ['auto_install']);
+    grunt.registerTask('server:install', 'Install server-side dependencies.', ['composer:install:no-dev:optimize-autoloader:prefer-dist']);
+    grunt.registerTask('install', 'Install both client-side and server-side dependencies.', ['client:install', 'server:install']);
+    grunt.registerTask('default', ['install', 'versionupdater', 'compress']);
     grunt.registerTask('version', ['versionupdater']);
     grunt.registerTask('zip', ['compress']);
+    grunt.registerTask('lint:client', 'Check JS syntax', ['eslint']);
+    grunt.registerTask('cs:server', 'Check PHP coding style', ['composer:run-script cs']);
+    grunt.registerTask('lint:server', 'Check PHP syntax', ['composer:run-script lint']);
+    grunt.registerTask('check:server', 'Check PHP source code for problems and style violation', ['lint:server', 'cs:server']);
+    grunt.registerTask('check', 'Check the whole source code for problems and style violation', ['lint:client', 'check:server']);
 };
